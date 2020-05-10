@@ -7,6 +7,7 @@
 #define RFIDEnablePin 2 //Pin that enables reading. Set as OUTPUT and LOW to read an RFID tag
 #define RFIDSerialRate 2400 //Parallax RFID Reader Serial Port Speed
 #define UnlockPin 12 //UnlockPin HIGH for open
+#define Speaker 13
 //Using SoftwareSerial Library to locate the serial pins off the default set
 //This allows the Arduino to be updated via USB with no conflict
 #define RxPin 5 //Pin to read data from Reader 
@@ -47,6 +48,12 @@ void setup()
   digitalWrite(RFIDEnablePin, LOW);
   digitalWrite(RedLED, LOW);
   digitalWrite(GreenLED, HIGH);
+  
+  //On Tone to notify user that input is ready to be recieved
+  Tone(Speaker, 1600, 250);
+  delay(300);
+  noTone(Speaker);
+  
   digitalWrite(OFF, LOW);
 
   Serial.begin(2400);           // set up Serial library at 9600 bps
@@ -81,6 +88,15 @@ void loop()
       digitalWrite(UnlockPin, HIGH);
       digitalWrite(RedLED, HIGH);
       digitalWrite(GreenLED, LOW);
+    
+      //Play Unlock Tone on Speaker
+      Tone(Speaker, 1200, 125);
+      delay(150);
+      noTone(Speaker);
+      Tone(Speaker, 2000, 125);
+      delay(150);
+      noTone(Speaker);
+    
       delay(5000);
       digitalWrite(OFF, HIGH);
 
